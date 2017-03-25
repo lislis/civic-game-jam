@@ -20,8 +20,9 @@
       (= gme screen1) (p/set-screen game screen2)
       (= gme screen2) (p/set-screen game screen1))))
 
-(defn update-screen-time []
-  (if (< (:time-on-screen @state) max-screen-time)
+
+(defn update-screen-time [max]
+  (if (< (:time-on-screen @state) max)
     (swap! state assoc :time-on-screen (+ (:time-on-screen @state) (p/get-delta-time game)))
     (change-screen)))
 
@@ -31,8 +32,9 @@
     (on-show [this])
     (on-hide [this] (js/clock.stop))
     (on-render [this]
+      (update-screen-time 22000)
       (js/clock.play)
-      (p/render game []))))
+      (p/render game [ ]))))
 
 (def screen1
   (reify p/Screen
@@ -41,8 +43,18 @@
                       (js/clock.play)))
     (on-hide [this] (js/clock.stop))
     (on-render [this]
-      (update-screen-time)
+      (update-screen-time max-screen-time)
       (p/render game []))))
+
+(def n-screen2
+ (reify p/Screen
+    (on-show [this])
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time 16000)
+      (js/clock.play)
+      (p/render game []))))
+
 
 (def screen2
   (reify p/Screen
@@ -51,7 +63,7 @@
                       (js/clock.play)))
     (on-hide [this] (js/clock.stop))
     (on-render [this]
-      (update-screen-time)
+      (update-screen-time max-screen-time)
       (p/render game
                 [[:fill {:color "pink"}
                   [:rect {:x 0 :y 200 :width 200 :height 200}
