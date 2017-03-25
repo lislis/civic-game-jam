@@ -6,7 +6,8 @@
 (declare screen2)
 
 (defonce game (p/create-game 500 500))
-(defonce state (atom {:time-on-screen 22}))
+(defonce state (atom {:time-on-screen 22
+                      :decision #{}}))
 
 (def max-screen-time 2000)
 
@@ -54,17 +55,25 @@
                   [:rect {:x 300 :y 200 :width 200 :height 200}
                    :text {:x 3 :y 10 :color "black" :value "Tea"}]]]))))
 
+(defn decide [item]
+  (swap! state :decision (conj (:decision state) item))
+
 (defn check-click [event]
   (let [mouse-x (.-screenX event)
         mouse-y (.-screenY event)
         width (p/get-width game)
-        screen-width (js->clj (.-innerWidth js/window))]
+        screen-width (js->clj (.-innerWidth js/window))
+        gme (p/get-screen game)]
     (js/console.log width)
     (js/console.log mouse-x)
+    (js/console.log (:decision @state))
     (if (< mouse-x (/ screen-width 2))
-      ;(swap! state assoc (p/get-screen game)))
-      (js/console.log (p/get-screen game))
-      (js/console.log "right"))))
+      (cond ; left
+        (= gme screen1) (decide :tea)
+        (= gme screen2) (decide :apple))
+      (cond ; right
+        (= gme screen1) (decide :coffee))
+        (= gme screen2) (decide :orange)))
 
 (doto game
   (p/stop)
