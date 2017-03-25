@@ -1,0 +1,3 @@
+{:require  [civic-game-jam.core]
+ :init-fns []
+ :compiler-options {}}
