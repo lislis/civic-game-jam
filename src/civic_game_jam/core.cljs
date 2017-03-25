@@ -18,13 +18,31 @@
                        :right "coffee"
                        :next :screen1}})
 
-(defonce state (atom {}))
+(defonce state (atom {:time-on-screen 22}))
+
+(def max-screen-time 2000)
+
+(defn reset-screen-time []
+  (swap! state assoc :time-on-screen 0))
+
+(defn change-screen []
+  (let [gme (p/get-screen game)]
+    (cond
+      (= gme screen1) (p/set-screen game screen2)
+      (= gme screen2) (p/set-screen game screen1))))
+
+(defn update-screen-time []
+  (if (< (:time-on-screen @state) max-screen-time)
+    (swap! state assoc :time-on-screen (+ (:time-on-screen @state) (p/get-delta-time game)))
+    (change-screen)))
 
 (def screen1
   (reify p/Screen
-    (on-show [this])
+    (on-show [this] (reset-screen-time))
     (on-hide [this])
     (on-render [this]
+      (js/console.log (:time-on-screen @state))
+      (update-screen-time)
       (p/render game
                 [[:fill {:color "green"}
                   [:rect {:x 0 :y 200 :width 200 :height 200}]]
@@ -33,9 +51,10 @@
 
 (def screen2
   (reify p/Screen
-    (on-show [this] ())
+    (on-show [this] (reset-screen-time))
     (on-hide [this])
     (on-render [this]
+      (update-screen-time)
       (p/render game
                 [[:fill {:color "pink"}
                   [:rect {:x 0 :y 200 :width 200 :height 200}]]
@@ -59,10 +78,6 @@
 
 (events/listen js/window "mousedown"
                (fn [^js/MouseEvent event]
-                 (let [gme (p/get-screen game)]
-                   (js/console.log (p/get-screen game))
-                   (cond
-                     (= gme screen1) (p/set-screen game screen2)
-                     (= gme screen2) (p/set-screen game screen1))
-                 ;  (check-click event))
-                 )))
+                 (change-screen)
+                 ; (check-click event))
+                 ))
