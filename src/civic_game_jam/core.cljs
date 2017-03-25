@@ -6,18 +6,6 @@
 (declare screen2)
 
 (defonce game (p/create-game 500 500))
-(def design {
-             :screen1 {
-                       :text "This is screen1 choose left or right"
-                       :left "left"
-                       :right "right"
-                       :next :screen2}
-             :screen2 {
-                       :text "This is the 2nd screen"
-                       :left "left2"
-                       :right "coffee"
-                       :next :screen1}})
-
 (defonce state (atom {:time-on-screen 22}))
 
 (def max-screen-time 2000)
@@ -41,13 +29,16 @@
     (on-show [this] (reset-screen-time))
     (on-hide [this])
     (on-render [this]
-      (js/console.log (:time-on-screen @state))
       (update-screen-time)
       (p/render game
                 [[:fill {:color "green"}
-                  [:rect {:x 0 :y 200 :width 200 :height 200}]]
-                 [:fill {:color "blue"}
-                  [:rect {:x 300 :y 200 :width 200 :height 200}]]]))))
+                  [:rect {:x 0 :y 200 :width 200 :height 200}
+                  [:fill {:color "black"}
+                    :text {:x 3 :y 15  :value "Coffee"}]]]
+                 [:fill {:color "green"}
+                  [:rect {:x 300 :y 200 :width 200 :height 200}
+                  [:fill {:color "black"}
+                    :text {:x 3 :y 15 :color "black" :value "Tea"}]]]]))))
 
 (def screen2
   (reify p/Screen
@@ -57,19 +48,23 @@
       (update-screen-time)
       (p/render game
                 [[:fill {:color "pink"}
-                  [:rect {:x 0 :y 200 :width 200 :height 200}]]
-                 [:fill {:color "orange"}
-                  [:rect {:x 300 :y 200 :width 200 :height 200}]]]))))
-
-
+                  [:rect {:x 0 :y 200 :width 200 :height 200}
+                   :text {:x 3 :y 10 :color "black" :value "Coffee"}]]
+                 [:fill {:color "pink"}
+                  [:rect {:x 300 :y 200 :width 200 :height 200}
+                   :text {:x 3 :y 10 :color "black" :value "Tea"}]]]))))
 
 (defn check-click [event]
-  (let [current-state (:current @state)
-        next-screen (:next (current-state design))]
-    ;(p/set-screen game (get screens next-screen))
-    (js/console.log current-state)
-    ;
-    ))
+  (let [mouse-x (.-screenX event)
+        mouse-y (.-screenY event)
+        width (p/get-width game)
+        screen-width (js->clj (.-innerWidth js/window))]
+    (js/console.log width)
+    (js/console.log mouse-x)
+    (if (< mouse-x (/ screen-width 2))
+      ;(swap! state assoc (p/get-screen game)))
+      (js/console.log (p/get-screen game))
+      (js/console.log "right"))))
 
 (doto game
   (p/stop)
@@ -79,5 +74,4 @@
 (events/listen js/window "mousedown"
                (fn [^js/MouseEvent event]
                  (change-screen)
-                 ; (check-click event))
-                 ))
+                 (check-click event)))
