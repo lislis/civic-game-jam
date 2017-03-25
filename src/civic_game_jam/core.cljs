@@ -56,7 +56,7 @@
                    :text {:x 3 :y 10 :color "black" :value "Tea"}]]]))))
 
 (defn decide [item]
-  (swap! state :decision (conj (:decision state) item))
+  (swap! state assoc :decision (conj (:decision @state) item)))
 
 (defn check-click [event]
   (let [mouse-x (.-screenX event)
@@ -66,14 +66,14 @@
         gme (p/get-screen game)]
     (js/console.log width)
     (js/console.log mouse-x)
-    (js/console.log (:decision @state))
+    (js/console.log (str (:decision @state)))
     (if (< mouse-x (/ screen-width 2))
       (cond ; left
         (= gme screen1) (decide :tea)
         (= gme screen2) (decide :apple))
       (cond ; right
-        (= gme screen1) (decide :coffee))
-        (= gme screen2) (decide :orange)))
+        (= gme screen1) (decide :coffee)
+        (= gme screen2) (decide :orange)))))
 
 (doto game
   (p/stop)
