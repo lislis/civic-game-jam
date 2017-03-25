@@ -55,7 +55,7 @@
     (on-show [this] (js/sound1.play))
     (on-hide [this] (js/sound1.stop))
     (on-render [this]
-      (update-screen-time 25000)
+      (update-screen-time 26000)
       (p/render game [:image {:value (:img-intro @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen1
@@ -73,8 +73,7 @@
     (on-show [this] (js/sound2.play))
     (on-hide [this] (js/sound2.stop))
     (on-render [this]
-      (update-screen-time 17000)
-      (js/clock.play)
+      (update-screen-time 18000)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen2
@@ -92,7 +91,7 @@
     (on-show [this] (js/sound3.play))
     (on-hide [this] (js/sound3.stop))
     (on-render [this]
-      (update-screen-time 18000)
+      (update-screen-time 19000)
       (js/clock.play)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
@@ -111,7 +110,7 @@
     (on-show [this] (js/sound4.play))
     (on-hide [this] (js/sound4.stop))
     (on-render [this]
-      (update-screen-time 9000)
+      (update-screen-time 10000)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen4
@@ -129,7 +128,7 @@
     (on-show [this] (js/sound5.play))
     (on-hide [this] (js/sound5.stop))
     (on-render [this]
-      (update-screen-time 4000)
+      (update-screen-time 5000)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen5
@@ -147,7 +146,7 @@
     (on-show [this] (js/sound6.play))
     (on-hide [this] (js/sound6.stop))
     (on-render [this]
-      (update-screen-time 3000)
+      (update-screen-time 4000)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen6
@@ -166,7 +165,7 @@
     (on-show [this] (js/sound7.play))
     (on-hide [this] (js/sound7.stop))
     (on-render [this]
-      (update-screen-time 4000)
+      (update-screen-time 5000)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen7
@@ -184,7 +183,7 @@
     (on-show [this] (js/sound8.play))
     (on-hide [this] (js/sound8.stop))
     (on-render [this]
-      (update-screen-time 11000)
+      (update-screen-time 12000)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen8
