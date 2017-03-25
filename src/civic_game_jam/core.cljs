@@ -25,26 +25,31 @@
     (swap! state assoc :time-on-screen (+ (:time-on-screen @state) (p/get-delta-time game)))
     (change-screen)))
 
+(def n-screen1
+  ;; good morning
+  (reify p/Screen
+    (on-show [this])
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (js/clock.play)
+      (p/render game []))))
+
 (def screen1
   (reify p/Screen
-    (on-show [this] (reset-screen-time))
-    (on-hide [this])
+    (on-show [this] (do
+                      (reset-screen-time)
+                      (js/clock.play)))
+    (on-hide [this] (js/clock.stop))
     (on-render [this]
       (update-screen-time)
-      (p/render game
-                [[:fill {:color "green"}
-                  [:rect {:x 0 :y 200 :width 200 :height 200}
-                  [:fill {:color "black"}
-                    :text {:x 3 :y 15  :value "Coffee"}]]]
-                 [:fill {:color "green"}
-                  [:rect {:x 300 :y 200 :width 200 :height 200}
-                  [:fill {:color "black"}
-                    :text {:x 3 :y 15 :color "black" :value "Tea"}]]]]))))
+      (p/render game []))))
 
 (def screen2
   (reify p/Screen
-    (on-show [this] (reset-screen-time))
-    (on-hide [this])
+    (on-show [this] (do
+                      (reset-screen-time)
+                      (js/clock.play)))
+    (on-hide [this] (js/clock.stop))
     (on-render [this]
       (update-screen-time)
       (p/render game
@@ -54,6 +59,9 @@
                  [:fill {:color "pink"}
                   [:rect {:x 300 :y 200 :width 200 :height 200}
                    :text {:x 3 :y 10 :color "black" :value "Tea"}]]]))))
+
+
+
 
 (defn decide [item]
   (swap! state assoc :decision (conj (:decision @state) item)))
@@ -78,7 +86,7 @@
 (doto game
   (p/stop)
   (p/start)
-  (p/set-screen screen1))
+  (p/set-screen n-screen1))
 
 (events/listen js/window "mousedown"
                (fn [^js/MouseEvent event]
