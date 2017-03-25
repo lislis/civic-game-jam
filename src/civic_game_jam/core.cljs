@@ -52,11 +52,10 @@
 (def n-screen1
   ;; good morning
   (reify p/Screen
-    (on-show [this])
-    (on-hide [this] (js/clock.stop))
+    (on-show [this] (js/sound1.play))
+    (on-hide [this] (js/sound1.stop))
     (on-render [this]
-      (update-screen-time 22000)
-      (js/clock.play)
+      (update-screen-time 25000)
       (p/render game [:image {:value (:img-intro @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen1
@@ -71,8 +70,8 @@
 
 (def n-screen2
  (reify p/Screen
-    (on-show [this])
-    (on-hide [this] (js/clock.stop))
+    (on-show [this] (js/sound2.play))
+    (on-hide [this] (js/sound2.stop))
     (on-render [this]
       (update-screen-time 17000)
       (js/clock.play)
@@ -90,8 +89,8 @@
 
 (def n-screen3
   (reify p/Screen
-    (on-show [this])
-    (on-hide [this] (js/clock.stop))
+    (on-show [this] (js/sound3.play))
+    (on-hide [this] (js/sound3.stop))
     (on-render [this]
       (update-screen-time 18000)
       (js/clock.play)
@@ -109,11 +108,10 @@
 
 (def n-screen4
   (reify p/Screen
-    (on-show [this])
-    (on-hide [this] (js/clock.stop))
+    (on-show [this] (js/sound4.play))
+    (on-hide [this] (js/sound4.stop))
     (on-render [this]
       (update-screen-time 9000)
-      (js/clock.play)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen4
@@ -128,11 +126,10 @@
 
 (def n-screen5
   (reify p/Screen
-    (on-show [this])
-    (on-hide [this] (js/clock.stop))
+    (on-show [this] (js/sound5.play))
+    (on-hide [this] (js/sound5.stop))
     (on-render [this]
       (update-screen-time 4000)
-      (js/clock.play)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen5
@@ -147,11 +144,10 @@
 
 (def n-screen6
   (reify p/Screen
-    (on-show [this])
-    (on-hide [this] (js/clock.stop))
+    (on-show [this] (js/sound6.play))
+    (on-hide [this] (js/sound6.stop))
     (on-render [this]
       (update-screen-time 3000)
-      (js/clock.play)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen6
@@ -167,11 +163,10 @@
 
 (def n-screen7
   (reify p/Screen
-    (on-show [this])
-    (on-hide [this] (js/clock.stop))
+    (on-show [this] (js/sound7.play))
+    (on-hide [this] (js/sound7.stop))
     (on-render [this]
       (update-screen-time 4000)
-      (js/clock.play)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen7
@@ -186,11 +181,10 @@
 
 (def n-screen8
   (reify p/Screen
-    (on-show [this])
-    (on-hide [this] (js/clock.stop))
+    (on-show [this] (js/sound8.play))
+    (on-hide [this] (js/sound8.stop))
     (on-render [this]
       (update-screen-time 11000)
-      (js/clock.play)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen8
