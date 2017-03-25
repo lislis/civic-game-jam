@@ -2,12 +2,13 @@
   (:require [play-cljs.core :as p]
             [goog.events :as events]))
 
-(declare screen1)
+(declare screen1 n-screen1)
 (declare screen2)
 
-(defonce game (p/create-game 500 500))
+(defonce game (p/create-game 1280 800))
 (defonce state (atom {:time-on-screen 22
-                      :decision #{}}))
+                      :decision #{}
+                      :img1 (p/load-image game "images/1.png")}))
 
 (def max-screen-time 2000)
 
@@ -17,6 +18,7 @@
 (defn change-screen []
   (let [gme (p/get-screen game)]
     (cond
+      (= gme n-screen1) (p/set-screen game screen1)
       (= gme screen1) (p/set-screen game screen2)
       (= gme screen2) (p/set-screen game screen1))))
 
@@ -32,7 +34,7 @@
     (on-show [this])
     (on-hide [this] (js/clock.stop))
     (on-render [this]
-      (update-screen-time 22000)
+      (update-screen-time 300)
       (js/clock.play)
       (p/render game [ ]))))
 
@@ -44,7 +46,7 @@
     (on-hide [this] (js/clock.stop))
     (on-render [this]
       (update-screen-time max-screen-time)
-      (p/render game []))))
+      (p/render game [:image {:value (:img1 @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def n-screen2
  (reify p/Screen
