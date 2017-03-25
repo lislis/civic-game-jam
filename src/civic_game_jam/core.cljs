@@ -92,7 +92,6 @@
     (on-hide [this] (js/sound3.stop))
     (on-render [this]
       (update-screen-time 19000)
-      (js/clock.play)
       (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen3
