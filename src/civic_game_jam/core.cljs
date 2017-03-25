@@ -2,8 +2,8 @@
   (:require [play-cljs.core :as p]
             [goog.events :as events]))
 
-(declare screen1 screen2)
-
+(declare screen1)
+(declare screen2)
 
 (defonce game (p/create-game 500 500))
 (def design {
@@ -18,14 +18,11 @@
                        :right "coffee"
                        :next :screen1}})
 
-(defonce state (atom {
-                      :current :screen1}))
-
-(def screens {:screen1 screen1 :screen2 screen2})
+(defonce state (atom {}))
 
 (def screen1
   (reify p/Screen
-    (on-show [this] ())
+    (on-show [this])
     (on-hide [this])
     (on-render [this]
       (p/render game
@@ -48,20 +45,24 @@
 
 
 (defn check-click [event]
-  (let [next-screen (:next ((:current @state) design))]
-    (p/set-screen game (get screens next-screen))
-    (js/console.log next-screen)
-    (swap! state assoc :current next-screen))
-  )
-
-
+  (let [current-state (:current @state)
+        next-screen (:next (current-state design))]
+    ;(p/set-screen game (get screens next-screen))
+    (js/console.log current-state)
+    ;
+    ))
 
 (doto game
   (p/stop)
   (p/start)
   (p/set-screen screen1))
 
-
 (events/listen js/window "mousedown"
                (fn [^js/MouseEvent event]
-                 (check-click event)))
+                 (let [gme (p/get-screen game)]
+                   (js/console.log (p/get-screen game))
+                   (cond
+                     (= gme screen1) (p/set-screen game screen2)
+                     (= gme screen2) (p/set-screen game screen1))
+                 ;  (check-click event))
+                 )))
