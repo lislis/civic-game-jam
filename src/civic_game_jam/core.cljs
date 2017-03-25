@@ -2,13 +2,24 @@
   (:require [play-cljs.core :as p]
             [goog.events :as events]))
 
-(declare screen1 n-screen1)
-(declare screen2)
+(declare screen1 n-screen1 n-screen2 screen2 n-screen3 screen3 n-screen4 screen4
+         n-screen5 screen5 n-screen6 screen6 n-screen7 screen7 n-screen8 screen8
+         screen-title)
 
 (defonce game (p/create-game 1280 800))
 (defonce state (atom {:time-on-screen 22
                       :decision #{}
-                      :img1 (p/load-image game "images/1.png")}))
+                      :img1 (p/load-image game "images/1.png")
+                      :img2 (p/load-image game "images/2.png")
+                      :img3 (p/load-image game "images/3.png")
+                      :img4 (p/load-image game "images/4.png")
+                      :img5 (p/load-image game "images/5.png")
+                      :img6 (p/load-image game "images/6.png")
+                      :img7 (p/load-image game "images/7.png")
+                      :img8 (p/load-image game "images/8.png")
+                      :img-intro (p/load-image game "images/title.png")
+                      :img-pause (p/load-image game "images/pause.png")
+                      }))
 
 (def max-screen-time 2000)
 
@@ -19,9 +30,19 @@
   (let [gme (p/get-screen game)]
     (cond
       (= gme n-screen1) (p/set-screen game screen1)
-      (= gme screen1) (p/set-screen game screen2)
-      (= gme screen2) (p/set-screen game screen1))))
-
+      (= gme screen1) (p/set-screen game n-screen2)
+      (= gme n-screen2) (p/set-screen game screen2)
+      (= gme screen2) (p/set-screen game n-screen3)
+      (= gme n-screen3) (p/set-screen game screen3)
+      (= gme screen3) (p/set-screen game n-screen4)
+      (= gme n-screen4) (p/set-screen game screen4)
+      (= gme screen4) (p/set-screen game n-screen5)
+      (= gme n-screen5) (p/set-screen game screen5)
+      (= gme screen5) (p/set-screen game n-screen6)
+      (= gme n-screen6) (p/set-screen game screen6)
+      (= gme screen6) (p/set-screen game n-screen7)
+      (= gme n-screen7) (p/set-screen game screen7)
+      (= gme screen7) (p/set-screen game n-screen8))))
 
 (defn update-screen-time [max]
   (if (< (:time-on-screen @state) max)
@@ -34,9 +55,9 @@
     (on-show [this])
     (on-hide [this] (js/clock.stop))
     (on-render [this]
-      (update-screen-time 300)
+      (update-screen-time 22000)
       (js/clock.play)
-      (p/render game [ ]))))
+      (p/render game [:image {:value (:img-intro @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen1
   (reify p/Screen
@@ -53,10 +74,9 @@
     (on-show [this])
     (on-hide [this] (js/clock.stop))
     (on-render [this]
-      (update-screen-time 16000)
+      (update-screen-time 17000)
       (js/clock.play)
-      (p/render game []))))
-
+      (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 (def screen2
   (reify p/Screen
@@ -66,15 +86,122 @@
     (on-hide [this] (js/clock.stop))
     (on-render [this]
       (update-screen-time max-screen-time)
-      (p/render game
-                [[:fill {:color "pink"}
-                  [:rect {:x 0 :y 200 :width 200 :height 200}
-                   :text {:x 3 :y 10 :color "black" :value "Coffee"}]]
-                 [:fill {:color "pink"}
-                  [:rect {:x 300 :y 200 :width 200 :height 200}
-                   :text {:x 3 :y 10 :color "black" :value "Tea"}]]]))))
+      (p/render game [:image {:value (:img2 @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def n-screen3
+  (reify p/Screen
+    (on-show [this])
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time 18000)
+      (js/clock.play)
+      (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def screen3
+  (reify p/Screen
+    (on-show [this] (do
+                      (reset-screen-time)
+                      (js/clock.play)))
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time max-screen-time)
+      (p/render game [:image {:value (:img3 @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def n-screen4
+  (reify p/Screen
+    (on-show [this])
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time 9000)
+      (js/clock.play)
+      (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def screen4
+  (reify p/Screen
+    (on-show [this] (do
+                      (reset-screen-time)
+                      (js/clock.play)))
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time max-screen-time)
+      (p/render game [:image {:value (:img4 @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def n-screen5
+  (reify p/Screen
+    (on-show [this])
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time 4000)
+      (js/clock.play)
+      (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def screen5
+  (reify p/Screen
+    (on-show [this] (do
+                      (reset-screen-time)
+                      (js/clock.play)))
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time max-screen-time)
+      (p/render game [:image {:value (:img5 @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def n-screen6
+  (reify p/Screen
+    (on-show [this])
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time 3000)
+      (js/clock.play)
+      (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def screen6
+  (reify p/Screen
+    (on-show [this] (do
+                      (reset-screen-time)
+                      (js/clock.play)))
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time max-screen-time)
+      (p/render game [:image {:value (:img6 @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 
+(def n-screen7
+  (reify p/Screen
+    (on-show [this])
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time 4000)
+      (js/clock.play)
+      (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def screen7
+  (reify p/Screen
+    (on-show [this] (do
+                      (reset-screen-time)
+                      (js/clock.play)))
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time max-screen-time)
+      (p/render game [:image {:value (:img7 @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def n-screen8
+  (reify p/Screen
+    (on-show [this])
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time 11000)
+      (js/clock.play)
+      (p/render game [:image {:value (:img-pause @state) :x 0 :y 0 :width 1280 :height 800}]))))
+
+(def screen8
+  (reify p/Screen
+    (on-show [this] (do
+                      (reset-screen-time)
+                      (js/clock.play)))
+    (on-hide [this] (js/clock.stop))
+    (on-render [this]
+      (update-screen-time max-screen-time)
+      (p/render game [:image {:value (:img8 @state) :x 0 :y 0 :width 1280 :height 800}]))))
 
 
 (defn decide [item]
